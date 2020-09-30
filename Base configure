@@ -1,0 +1,80 @@
+Base install
+
+1) 
+
+cat > /etc/apt/sources.list <<EOF
+
+#------------------------------------------------------------------------------#
+# OFFICIAL DEBIAN REPOS
+#------------------------------------------------------------------------------#
+
+###### Debian Main Repos
+deb http://deb.debian.org/debian/ stable main contrib non-free
+deb-src http://deb.debian.org/debian/ stable main contrib non-free
+
+deb http://deb.debian.org/debian/ stable-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ stable-updates main contrib non-free
+
+deb http://deb.debian.org/debian-security stable/updates main
+deb-src http://deb.debian.org/debian-security stable/updates main
+
+deb http://ftp.debian.org/debian buster-backports main
+deb-src http://ftp.debian.org/debian buster-backports main
+
+EOF
+
+
+2) 
+apt update
+
+2.1) 
+apt install net-tools netdiag sudo mc build-essential git monit linux-headers-$(uname -r) iptables-persistent lftp ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan libasound2 rsync
+
+3)
+
+dpkg --add-architecture i386
+apt update
+apt install libc6:i386 libpcsclite1:i386
+
+4) Only transkoder *******
+
+ echo 'blacklist nouveau' >>/etc/modprobe.d/BLACKLIST-video.conf 
+ 
+5)
+ 
+  sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config 
+  
+6) 
+  
+  sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config
+  
+7) 
+  
+cat >> /etc/modules <<EOF
+
+nf_conntrack
+
+EOF
+
+8) 
+
+cat >> /etc/security/limits.conf <<EOF
+
+root soft nofile 65536
+
+root hard nofile 65536
+
+nginx soft nofile 30000
+
+nginx hard nofile 30000
+
+EOF
+
+9) 
+
+wget https://gist.githubusercontent.com/SaveTheRbtz/8875474/raw/4c859ccb0a88b789b2a8a2e606fca6877643960a/set_irq_affinity.sh -O /etc/network/set_irq_affinity.sh && chmod +x /etc/network/set_irq_affinity.sh
+
+10) 
+
+Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server 
+
