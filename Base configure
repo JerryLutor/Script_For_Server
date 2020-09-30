@@ -42,11 +42,11 @@ apt install libc6:i386 libpcsclite1:i386
  
 5)
  
-  sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config 
+sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config 
   
 6) 
   
-  sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config
+sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config
   
 7) 
   
@@ -74,7 +74,41 @@ EOF
 
 wget https://gist.githubusercontent.com/SaveTheRbtz/8875474/raw/4c859ccb0a88b789b2a8a2e606fca6877643960a/set_irq_affinity.sh -O /etc/network/set_irq_affinity.sh && chmod +x /etc/network/set_irq_affinity.sh
 
+
+9.1)
+
+cat > /etc/network/ethconf.sh <<EOF
+#!/bin/bash
+tool="/sbin/ethtool"
+${tool} -G $1 tx 4096 rx 4096
+${tool} -C $1 tx-frames-irq 2048
+${tool} -C $1 rx-usecs 30
+${tool} -A $1 tx off rx off
+exit 0
+
+EOF
+
+
+9.2) 
+
+cat >> /etc/network/interfaces <<EOF
+
+post-up /etc/network/set_irq_affinity.sh -x all $IFACE
+post-up /etc/network/ethconf.sh $IFACE
+
+EOF
+
+9.3) 
+
+chmod +x /etc/network/ethconf.sh
+
 10) 
 
 Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server 
+
+11) Install driver for 520/560
+
+https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
+
+
 
