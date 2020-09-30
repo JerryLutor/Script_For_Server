@@ -106,7 +106,7 @@ chmod +x /etc/network/ethconf.sh
 
 10) 
 
-Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server 
+Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server/tree/master/sysctl
 
 11) Install driver for 520/560
 
