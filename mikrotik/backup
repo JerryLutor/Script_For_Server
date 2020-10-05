@@ -27,11 +27,11 @@
 /export compact file=$fname2
 :log info message="Config export finished (2/2)"
 :log info message="Uploading system backup (1/2)"
-/tool fetch address="172.16.0.2" src-path="$fname1" user="backup"  mode=ftp password="261101" dst-path="ftpbackup/mikrotik/$fname1" upload=yes;
+/tool fetch address="$ftphost" src-path="$fname1" user="$ftpuser"  mode=ftp password="$ftppassword" dst-path="$ftppath/$fname1" upload=yes;
 :delay delay-time=10
 :log info message="Uploading config export (2/2)"
 :delay delay-time=10
-/tool fetch address="172.16.0.2" src-path="$fname2" user="backup" mode=ftp password="261101" dst-path="ftpbackup/mikrotik/$fname2" upload=yes;
+/tool fetch address="$ftphost" src-path="$fname2" user="$ftpuser" mode=ftp password="$ftppassword" dst-path="$ftppath/$fname2" upload=yes;
 :delay delay-time=15
 :foreach i in=[/file find] do={ :if ([:typeof [:find [/file get $i name] "Mikrotik-"]]!="nil") do={/file remove $i}; }
 :log info message="Configuration backup finished"
