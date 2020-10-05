@@ -1,0 +1,37 @@
+#automated backup export ftp
+# ftp configuration
+:local ftphost "IP"
+:local ftpuser "USER"
+:local ftppassword "PASS"
+:local ftppath "mikrotik"
+# months array
+:local months ("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec");
+# get time
+:local ts [/system clock get time]
+:set ts ([:pick $ts 0 2].[:pick $ts 3 5].[:pick $ts 6 8])
+# get Date
+:local ds [/system clock get date]
+# convert name of month to number
+:local month [ :pick $ds 0 3 ];
+:local mm ([ :find $months $month -1 ] + 1);
+:if ($mm < 10) do={ :set mm ("0" . $mm); }
+# set $ds to format YYYY-MM-DD
+:set ds ([:pick $ds 7 11] . $mm . [:pick $ds 4 6])
+# file name for system backup - file name will be Mikrotik-servername-date-time.backup
+:local fname1 ("/Mikrotik-".[/system identity get name]."-".$ds."-".$ts.".backup")
+# file name for config export - file name will be Mikrotik-servername-date-time.rsc
+:local fname2 ("/Mikrotik-".[/system identity get name]."-".$ds."-".$ts.".rsc")
+# backup the data
+/system backup save name=$fname1
+:log info message="System backup finished (1/2)";
+/export compact file=$fname2
+:log info message="Config export finished (2/2)"
+:log info message="Uploading system backup (1/2)"
+/tool fetch address="172.16.0.2" src-path="$fname1" user="backup"  mode=ftp password="261101" dst-path="ftpbackup/mikrotik/$fname1" upload=yes;
+:delay delay-time=10
+:log info message="Uploading config export (2/2)"
+:delay delay-time=10
+/tool fetch address="172.16.0.2" src-path="$fname2" user="backup" mode=ftp password="261101" dst-path="ftpbackup/mikrotik/$fname2" upload=yes;
+:delay delay-time=15
+:foreach i in=[/file find] do={ :if ([:typeof [:find [/file get $i name] "Mikrotik-"]]!="nil") do={/file remove $i}; }
+:log info message="Configuration backup finished"
