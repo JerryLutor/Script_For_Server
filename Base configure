@@ -76,26 +76,24 @@ EOF
 
 9) 
 
-wget https://gist.githubusercontent.com/SaveTheRbtz/8875474/raw/4c859ccb0a88b789b2a8a2e606fca6877643960a/set_irq_affinity.sh -O /etc/network/set_irq_affinity.sh && chmod +x /etc/network/set_irq_affinity.sh
+wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/set_irq_affinity.sh -O /etc/network/set_irq_affinity.sh && chmod +x /etc/network/set_irq_affinity.sh
 
 
 9.1)
 
-
+wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/ethconf.sh -O /etc/network/ethconf.sh && chmod +x /etc/network/ethconf.sh
 
 
 9.2) 
 
 cat >> /etc/network/interfaces <<EOF
 
-post-up /etc/network/set_irq_affinity.sh -x all $IFACE
-post-up /etc/network/ethconf.sh $IFACE
+post-up /etc/network/set_irq_affinity.sh -x all eno1 #change me
+post-up /etc/network/ethconf.sh eno1 #change me
 
 EOF
 
-9.3) 
 
-chmod +x /etc/network/ethconf.sh
 
 10) 
 
@@ -104,6 +102,18 @@ Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server/tree/ma
 11) Install driver for 520/560
 
 https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
+
+example:
+
+11.1) cd /usr/src/
+
+11.2) wget https://sourceforge.net/projects/e1000/files/ixgbe%20stable/5.9.4/ixgbe-5.9.4.tar.gz
+
+11.3) tar xf ixgbe-5.9.4.tar.gz
+
+11.4) cd ixgbe-5.9.4/src/
+
+11.5) make && make install
 
 
 
