@@ -1,0 +1,42 @@
+echo "deb http://downloads.linux.hpe.com/SDR/repo/mcp buster/current non-free" > /etc/apt/sources.list.d/hp-mcp.list
+
+wget -q -O - http://downloads.linux.hpe.com/SDR/hpPublicKey1024.pub | apt-key add -
+wget -q -O - http://downloads.linux.hpe.com/SDR/hpPublicKey2048.pub | apt-key add -
+wget -q -O - http://downloads.linux.hpe.com/SDR/hpPublicKey2048_key1.pub | apt-key add -
+wget -q -O - http://downloads.linux.hpe.com/SDR/hpePublicKey2048_key1.pub | apt-key add -
+
+apt update
+
+apt install ssacli
+
+ssacli ctrl all show config
+
+cd /usr/src/ ;
+
+wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz;
+sudo tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz;
+export PATH=$PATH:/usr/local/go/bin;
+go;
+git clone https://github.com/ps78674/zabbix-raidstat.git;
+cd zabbix-raidstat/;
+go get github.com/docopt/docopt-go;
+go build;
+make;
+
+mkdir /opt/raidstat/
+
+cp ./build/* /opt/raidstat/
+
+
+cp zabbix/raidstat.sudoers /etc/sudoers.d/
+
+cp zabbix/userparameter_raidstat.conf /etc/zabbix/zabbix_agentd.d/
+
+service zabbix-agent restart
+
+visudo
+
+zabbix ALL=(ALL) NOPASSWD: /opt/raidstat/raidstat
+
+macro - zabbix
+{$RAID_VENDOR}  hp
