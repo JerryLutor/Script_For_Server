@@ -1,5 +1,12 @@
 Base install
 
+0)
+
+cat > /etc/resolv.conf <<EOF
+nameserver 8.8.8.8
+EOF
+
+
 1) 
 
 cat > /etc/apt/sources.list <<EOF
