@@ -1,5 +1,15 @@
 Base install
 
+
+0) export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+0)
+
+cat > /etc/resolv.conf <<EOF
+nameserver 8.8.8.8
+EOF
+
+
 1) 
 
 cat > /etc/apt/sources.list <<EOF
