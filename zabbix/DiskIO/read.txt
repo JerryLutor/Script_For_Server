@@ -1,0 +1,24 @@
+The /sys directory is generally where the sysfs filestystem is mounted, which contains information about devices and other kernel information.
+
+The files in /sys/block contain information about block devices on your system. Your local system has a block device named sda, so /sys/block/sda exists. Your Amazon instance has a device named xvda, so /sys/block/xvda exists.
+
+The /sys/block/<dev>/stat file provides several statistics about the state of block device <dev>. It consists of a single line of text containing 11 decimal values separated by whitespace:
+
+
+cat /sys/class/block/sda1/stat
+
+   11289      251   975490    70056 16888330 59059434 1025686720  4326303        0   685904  3381756        0        0        0        0
+   
+Name            units         description
+----            -----         -----------
+read I/Os       requests      number of read I/Os processed
+read merges     requests      number of read I/Os merged with in-queue I/O
+read sectors    sectors       number of sectors read
+read ticks      milliseconds  total wait time for read requests
+write I/Os      requests      number of write I/Os processed
+write merges    requests      number of write I/Os merged with in-queue I/O
+write sectors   sectors       number of sectors written
+write ticks     milliseconds  total wait time for write requests
+in_flight       requests      number of I/Os currently in flight
+io_ticks        milliseconds  total time this block device has been active
+time_in_queue   milliseconds  total wait time for all requests

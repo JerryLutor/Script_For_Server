@@ -1,0 +1,125 @@
+итак, вот конфиг для нжинкса для двух астр, в котором юзеры по айпи (точнее его хешу) распределяются в указанном соотношении между основной и тестовой версией астры, в данном случае 10% юзеров улетит на тестовую, остальные на стабильную
+доступ в морду только по прямому урлу
+# Disable nginx tokens
+server_tokens off;
+
+# Cache settings
+#proxy_cache_path "/ramcache" use_temp_path=off keys_zone=all:1m inactive=30s max_size=5g;
+#proxy_cache_min_uses 1;
+#proxy_ignore_headers Cache-Control;
+
+# HSTS (HTTP Strict-Transport-Security) (15768000 seconds = 6 months)
+add_header Strict-Transport-Security max-age=15768000;
+# Deny page rendering in <frame>, <iframe>, <embed> or <object>
+add_header X-Frame-Options "DENY";
+# Cross-Origin Read Blocking (CORB) protection
+add_header X-Content-Type-Options nosniff;
+# Cross-site scripting (XSS) protection
+add_header X-XSS-Protection "1; mode=block";
+
+# Allow only GET, POST, HEAD
+add_header Allow "GET, POST, HEAD" always;
+
+# Websocket proxy
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  ''      close;
+}
+
+upstream astra_stable {
+  server  <astra_stable_ip>:<astra_stable_port> max_fails=3 fail_timeout=5s;
+  server  <astra_test_ip>:<astra_test_port> backup;
+}
+
+upstream astra_test {
+  server  <astra_test_ip>:<astra_test_port> max_fails=3 fail_timeout=5s;
+  server  <astra_stable_ip>:<astra_stable_port> backup;
+}
+
+split_clients "${remote_addr}AAA" $astra {
+  10.0%  "astra_test";
+  *    "astra_stable";
+}
+
+server {
+  listen 80;
+  server_name <server_name>;
+  access_log off;
+
+  open_file_cache max=1000 inactive=20s;
+  open_file_cache_valid 30s;
+  open_file_cache_errors off;
+
+  keepalive_timeout 300s;
+  keepalive_requests 1000000;
+
+  resolver <ns_ip> ipv6=off;
+  resolver_timeout 10s;
+
+  # Block scanners
+  if ( $http_user_agent ~* (nmap|nikto|wikto|sf|sqlmap|bsqlbf|w3af|acunetix|havij|appscan) ) {
+    return 403;
+  }
+
+  # Allow only GET, POST, HEAD
+  if ( $request_method !~ ^(GET|POST|HEAD)$ ) {
+    return 405;
+  }
+
+  location / {
+    # Astra web panel
+    proxy_cache off;
+    proxy_pass  http://astra_stable;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    include    /etc/nginx/conf.d/proxy_params.conf;
+  }
+
+  location ~* \.(m3u8)$ {
+    # Don't cache playlist
+    proxy_cache off;
+    expires -1;
+    proxy_pass  http://$astra;
+    include    /etc/nginx/conf.d/proxy_params.conf;
+  }
+
+  location ~* \.(ts|trp)$ {
+    # Chunk cache
+    proxy_pass http://$astra;
+    # Cache time management
+    proxy_pass_header X-Accel-Expires;
+    proxy_cache_methods GET;
+    proxy_cache all;
+    proxy_cache_key $request_uri;
+    # Chunk time
+    proxy_cache_valid 200 5s;
+    proxy_cache_lock on;
+    proxy_cache_lock_timeout 5s;
+    proxy_cache_lock_age 5s;
+    # Add cache status of request in custom header
+    add_header X-Cache-Status $upstream_cache_status;
+  }
+
+  # Block access to hidden files
+  location ~ /\. {
+    access_log off;
+    log_not_found off;
+    deny all;
+  }
+
+  # Block access to home dir
+  location ~ ~$ {
+    access_log off;
+    log_not_found off;
+    deny all;
+  }
+
+  # Nginx status page
+  location ~* (nginx-status|nginx_status)$ {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+
+}
