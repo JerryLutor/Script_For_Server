@@ -1,5 +1,8 @@
 Base install
 
+
+0) export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 0)
 
 cat > /etc/resolv.conf <<EOF
