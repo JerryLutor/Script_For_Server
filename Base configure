@@ -38,7 +38,7 @@ EOF
 apt update
 
 2.1) 
-apt install net-tools netdiag sudo mc build-essential git monit linux-headers-$(uname -r) iptables-persistent lftp ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan libasound2 rsync systemd-coredump
+apt install net-tools netdiag sudo mc build-essential git monit linux-headers-$(uname -r) iptables-persistent lftp ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump
 
 3)
 
