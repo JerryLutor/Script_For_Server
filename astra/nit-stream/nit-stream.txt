@@ -1,0 +1,5 @@
+http://cesbo.com/and/nit-stream
+http://cesbo.com/and/json2ini.py - это конвертер, он конфиги астры с мультиплексами перегоняет в ini для nit-stream
+
+python3 json2ini.py /etc/astra/astra.conf
+
