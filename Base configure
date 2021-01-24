@@ -113,17 +113,6 @@ Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server/tree/ma
 
 https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
 
-example:
-
-11.1) cd /usr/src/
-
-11.2) wget https://sourceforge.net/projects/e1000/files/ixgbe%20stable/5.9.4/ixgbe-5.9.4.tar.gz
-
-11.3) tar xf ixgbe-5.9.4.tar.gz
-
-11.4) cd ixgbe-5.9.4/src/
-
-11.5) make && make install
 
 
 
