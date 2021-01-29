@@ -1,0 +1,2 @@
+#!/bin/bash
+curl -X POST -d '{"cmd":"set-input","id":"erox","input":2}' http://crontab:crontab@127.0.0.1:1531/control/

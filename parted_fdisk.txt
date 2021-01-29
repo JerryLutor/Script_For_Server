@@ -1,0 +1,9 @@
+fdisk -l
+
+parted --align optimal /dev/nvme0n1
+
+mklabel GPT
+
+mkpart primary 0% 100%
+ 
+mkfs.ext4 /dev/nvme0n1p1
