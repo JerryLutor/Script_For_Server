@@ -114,5 +114,7 @@ Install sysctl.conf from https://github.com/JerryLutor/Script_For_Server/tree/ma
 https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
 
 
-
+12) 
+systemctl stop unattended-upgrades.service;
+systemctl disable unattended-upgrades.service;
 
