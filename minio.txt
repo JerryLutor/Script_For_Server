@@ -1,0 +1,85 @@
+
+
+
+install minio
+
+1) 
+wget https://dl.min.io/server/minio/release/linux-amd64/minio -O /usr/local/bin/minio
+
+2)
+chmod +x /usr/local/bin/minio
+
+MINIO_ACCESS_KEY="$(pwgen -Bcn 20 1)"
+echo "MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}"
+
+MINIO_SECRET_KEY="$(pwgen -Bcn 40 1)"
+echo "MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
+
+3) 
+cat /etc/default/minio
+
+MINIO_VOLUMES="/channels10t/"
+MINIO_OPTS="-C /etc/minio --address ip_change:9000"
+
+MINIO_ACCESS_KEY=""
+MINIO_ROOT_USER=""
+MINIO_SECRET_KEY=""
+MINIO_ROOT_PASSWORD=""
+4) 
+4.1)
+sudo useradd -r minio-user -s /sbin/nologin
+4.2)
+chown minio-user:minio-user /usr/local/bin/minio
+4.3) 
+mkdir /channels10t
+4.4)
+chown minio-user:minio-user /channels10t
+4.5)
+mkdir /etc/minio
+4.6)
+chown minio-user:minio-user /etc/minio
+--
+cat /etc/systemd/system/minio.service
+
+[Unit]
+Description=MinIO
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+AssertFileIsExecutable=/usr/local/bin/minio
+
+[Service]
+WorkingDirectory=/channels10t
+
+#User=minio-user
+#Group=minio-user
+
+EnvironmentFile=/etc/default/minio
+ExecStartPre=/usr/bin/bash -c "if [ -z \"${MINIO_VOLUMES}\" ]; then echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\"; exit 1; fi"
+
+ExecStart=/usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
+
+# Let systemd restart this service always
+Restart=always
+
+# Specifies the maximum file descriptor number that can be opened by this process
+LimitNOFILE=65536
+
+# Disable timeout logic and wait until process is stopped
+TimeoutStopSec=infinity
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+
+# Built for ${project.name}-${project.version} (${project.name})
+
+--
+
+systemctl daemon-reload
+
+systemctl enable minio
+
+systemctl start minio
+
+systemctl status minio

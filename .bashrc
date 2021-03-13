@@ -22,3 +22,7 @@ then
     bind '"\e[A": history-search-backward'
     bind '"\e[B": history-search-forward'
 fi
+
+#flussonic
+alias valid='/opt/flussonic/contrib/validate_config.erl'
+#
