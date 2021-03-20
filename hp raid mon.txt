@@ -30,7 +30,7 @@ cp ./build/* /opt/raidstat/
 
 cp zabbix/raidstat.sudoers /etc/sudoers.d/
 
-cp zabbix/userparameter_raidstat.conf /etc/zabbix/zabbix_agentd.d/
+cp zabbix/userparameter_raidstat.conf /etc/zabbix/zabbix_agentd.conf.d/
 
 service zabbix-agent restart
 

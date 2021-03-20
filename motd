@@ -5,13 +5,13 @@ touch /etc/update-motd.d/99-mymotd-generator && chmod a+x /etc/update-motd.d/99-
 
 2) 
 
- chmod a+x /etc/update-motd.d/99-mymotd-generator
+chmod a+x /etc/update-motd.d/99-mymotd-generator
  
- 3) 
+3) 
  
- mcedit  /etc/update-motd.d/99-mymotd-generator
+mcedit  /etc/update-motd.d/99-mymotd-generator
  
- 4) 
+4) 
  
 #!/bin/sh
 #

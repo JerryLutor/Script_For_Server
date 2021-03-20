@@ -1,0 +1,22 @@
+
+
+ConnectX3
+
+wget https://downloads.hpe.com/pub/softlib2/software1/pubsw-windows/p528463880/v153730/fw-ConnectX3-rel-2_42_5030-649282-B21_Cx-Dx-CLP-8025-FlexBoot-3.4.662_windows.zip;
+
+unzip fw-ConnectX3-rel-2_42_5030-649282-B21_Cx-Dx-CLP-8025-FlexBoot-3.4.662_windows.zip;
+
+mlxfwmanager -u
+
+
+--------------------
+ConnectX3Pro
+
+wget https://downloads.hpe.com/pub/softlib2/software1/pubsw-linux/p84948234/v182403/fw-ConnectX3Pro-rel-2_42_5700-764285-B21_Ax-CLP-8025-UEFI-14.11.49-FlexBoot-3.4.754.tgz
+
+tar xf fw-ConnectX3Pro-rel-2_42_5700-764285-B21_Ax-CLP-8025-UEFI-14.11.49-FlexBoot-3.4.754.tgz
+
+cd fw-ConnectX3Pro-rel-2_42_5700-764285-B21_Ax-CLP-8025-UEFI-14.11.49-FlexBoot-3.4.754
+
+mlxfwmanager -u
+
