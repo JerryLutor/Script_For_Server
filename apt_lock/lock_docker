@@ -1,0 +1,7 @@
+Package: containerd.io*
+Pin: release *
+Pin-Priority: -1
+
+Package: docker*
+Pin: release *
+Pin-Priority: -1

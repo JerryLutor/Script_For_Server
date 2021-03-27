@@ -1,0 +1,15 @@
+Package: linux-image-*
+Pin: release *
+Pin-Priority: -1
+
+Package: linux-kbuild-*
+Pin: release *
+Pin-Priority: -1
+
+Package: linux-libc-*
+Pin: release *
+Pin-Priority: -1
+
+Package: linux-headers-*
+Pin: release *
+Pin-Priority: -1

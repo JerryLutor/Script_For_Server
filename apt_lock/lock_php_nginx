@@ -1,0 +1,27 @@
+Package: php*
+Pin: release *
+Pin-Priority: -1
+
+Package: nginx*
+Pin: release *
+Pin-Priority: -1
+
+Package: mysql*
+Pin: release *
+Pin-Priority: -1
+
+Package: libmysql*
+Pin: release *
+Pin-Priority: -1
+
+Package: libpcre*
+Pin: release *
+Pin-Priority: -1
+
+Package: libxml*
+Pin: release *
+Pin-Priority: -1
+
+Package: libzstd*
+Pin: release *
+Pin-Priority: -1
