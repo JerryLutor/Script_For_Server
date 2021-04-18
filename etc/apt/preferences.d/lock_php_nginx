@@ -25,3 +25,12 @@ Pin-Priority: -1
 Package: libzstd*
 Pin: release *
 Pin-Priority: -1
+
+Package: libmariadb3*
+Pin: release *
+Pin-Priority: -1
+
+Package: mariadb*
+Pin: release *
+Pin-Priority: -1
+

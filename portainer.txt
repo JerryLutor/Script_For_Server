@@ -6,4 +6,8 @@ sudo docker stop portainer
 
 sudo docker rm portainer
 
-docker run -d -p 19000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+#IPV4/IPV6
+#docker run -d -p 19000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+
+#IPV4 Only
+docker run -d -p 0.0.0.0:19000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce --sysctl net.ipv6.conf.all.disable_ipv6=1
