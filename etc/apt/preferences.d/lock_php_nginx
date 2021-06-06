@@ -34,3 +34,6 @@ Package: mariadb*
 Pin: release *
 Pin-Priority: -1
 
+Package: libnginx-*
+Pin: release *
+Pin-Priority: -1

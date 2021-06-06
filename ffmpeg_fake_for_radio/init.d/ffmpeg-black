@@ -1,0 +1,41 @@
+#!/bin/sh
+# /etc/init.d/ffmpeg-black
+
+### BEGIN INIT INFO
+# Provides:          ffmpeg-black
+# Required-Start:    $network $remote_fs $syslog
+# Required-Stop:     $network $remote_fs $syslog
+# Should-Start:      $named
+# Should-Stop:       $named
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: ffmpeg-black
+### END INIT INFO
+
+pid_file="/tmp/ffmpegbs.pid"
+
+case "$1" in
+    restart)
+       /etc/init.d/ffmpeg-black stop
+       /etc/init.d/ffmpeg-black start
+           ;;
+
+    start)
+       rm $pid_file
+         ffmpeg_black -re -loop 1 -i /etc/astra/forradio/radio.jpg -f lavfi  -vf drawtext=fontfile=/etc/astra/forradio/FreeMonoBold.ttf:text='%{localtime}':fontsize=h/10:fontcolor=white@0.8:x=7:y=7 -c:v libx264 -x264opts nal-hrd=cbr:force-cfr=1 -b:v 2300k -minrate 2300k -maxrate 2300k -bufsize 95k -rc_eq 'blurCplx^(1-qComp)' -flush_packets 0 -f mpegts -f mpegts 'udp://239.0.10.255:22221/?pkt_size=1316&bitrate=2700000' -mpegts_start_pid 0x15 -pat_period 0.1 &
+       ch_pid=$!
+       echo "Start HLS: ffmpeg = $ch_pid";
+       echo $ch_pid > $pid_file
+            ;;
+    stop)
+       echo "Stop transcoding";
+           kill `cat $pid_file`
+            ;;
+
+           *)
+       echo "Usage: /etc/init.d/ffmpeg-black {start|stop|restart}"
+            exit 1
+            ;;
+    esac
+exit 0
+echo $pid_file
