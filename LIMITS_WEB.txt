@@ -1,0 +1,31 @@
+Dmitriy Novash programer, [23.06.21 19:09]
+типа такого:
+*raw
+
+-A PREROUTING -i eth0 -p tcp -m tcp --syn -m multiport --dports 80,443  -j CT --notrack
+COMMIT
+
+*filter
+
+# get syn & ack packets and check syncookies
+-A INPUT -p tcp -m tcp -m multiport --dports 80,443 -m state --state INVALID,UNTRACKED -j SYNPROXY --sack-perm --timestamp --wscale 7 --mss 1460
+# discard failed packets
+-A INPUT -m conntrack --ctstate INVALID          -j DROP
+-A INPUT -m state --state RELATED,ESTABLISHED      -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 8          -j ACCEPT
+-A INPUT -i lo                      -j ACCEPT
+-A INPUT -m state --state INVALID            -j DROP
+-A INPUT                        -j LIMITS
+-A INPUT -p tcp -m multiport  --dports 80,443      -j ACCEPT  -m comment --comment "WEB"
+-A INPUT                        -j REJECT  --reject-with icmp-host-prohibited
+
+## Start LIMITS
+-A LIMITS -m set --match-set internal_networks src,dst  -j ACCEPT
+-A LIMITS -p tcp -m multiport  --dports 80,443      -j LIMITS_WEB
+-A LIMITS                        -j RETURN
+## End LIMITS
+
+## Start LIMITS_WEB
+-A LIMITS_WEB -p tcp -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -m multiport --dports 80,443 -m connlimit --connlimit-above 30 --connlimit-mask 32 --connlimit-saddr -m comment --comment "Limit 30 connections per IP" -j REJECT --reject-with tcp-reset
+-A LIMITS_WEB                      -j RETURN
+## End LIMITS_WEB

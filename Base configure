@@ -35,30 +35,22 @@ EOF
 
 
 2) 
-apt update
-
-2.1) 
-apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump
+apt update && apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync rsnapshot systemd-coredump
 
 3)
 
-dpkg --add-architecture i386
-apt update
-apt install libc6:i386 libpcsclite1:i386
+dpkg --add-architecture i386 && apt update && apt install libc6:i386 libpcsclite1:i386;
 
 4) Only transkoder *******
 
- echo 'blacklist nouveau' >>/etc/modprobe.d/BLACKLIST-video.conf 
+echo 'blacklist nouveau' >>/etc/modprobe.d/BLACKLIST-video.conf;
  
 ------------------------------------------- reboot -----------------------------------------
  
 5)
  
-sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config 
+sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config && sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config && mkdir -p /usr/backup/ && sed -i 's/\/var\/cache\/rsnapshot\//\/usr\/backup\/rsnapshot\//g'  /etc/rsnapshot.conf
   
-6) 
-  
-sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config
   
 7) 
   
