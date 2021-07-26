@@ -37,3 +37,7 @@ Pin-Priority: -1
 Package: libnginx-*
 Pin: release *
 Pin-Priority: -1
+
+Package: libapache2-mod-php*
+Pin: release *
+Pin-Priority: -1

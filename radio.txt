@@ -1,0 +1,13 @@
+ffmpeg -threads 2 -re -fflags +genpts -stream_loop -1 \
+-hide_banner \
+-nostats \
+-loglevel repeat+level+error \
+-i /opt/kartinka.png \
+-i http://ic5.101.ru:8000/a32?type=.mp3 \
+-color_primaries bt709 -color_trc bt709 -colorspace bt709 \
+-vcodec libx264 -c:v libx264 -x264-params "nal-hrd=cbr" -vf format=yuv420p \
+-b:v 2M -minrate 2M -maxrate 2M -bufsize 2M \
+-b:a 192k -flush_packets 0 \
+-f mpegts udp://lo@127.0.0.1:5555?pkt_size=1316
+
+вот тут картинка и радио

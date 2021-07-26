@@ -1,0 +1,29 @@
+pts=`/usr/bin/ffprobe -v error -show_streams \
+                                http://localhost:$nginx_port/$server_prefix/ch-$folder_count_norm/video.m3u8 \
+                                -timeout 2000| grep start_pts | sed 's/start_pts=//'`
+                                pts_video=echo $pts | cut -f 2 -d' ' |  sed 's/.....$//'
+
+                                if [ "$pts_video" == 'N/A' ]; then
+                                        pts_video="0"
+                                fi;
+
+                                pts_audio=echo $pts | cut -f 1 -d' ' | sed 's/.....$//'
+
+                                if [ "$pts_audio" == 'N/A' ]; then
+                                        pts_audio="0"
+                                fi;
+
+                                if [ "$pts_video" -ne "$pts_audio" ]; then
+                                        while ((10 > $k))
+                                        do
+                                                pids=ps ax | grep ffmpeg | grep "$output_name"-"$folder_count_norm"- | awk '{print $1}'
+                                                if [[ -z $pids ]]; then
+                                                        k=10
+                                                        break
+                                                fi;
+                                                k=$[$k + 1]
+                                                        kill $pids
+                                        done
+                                        k=0
+                                        echo $pts' PTS is no equivalent. Restart!!!'
+                                fi;
