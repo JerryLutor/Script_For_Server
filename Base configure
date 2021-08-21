@@ -25,8 +25,9 @@ deb-src http://deb.debian.org/debian/ stable main contrib non-free
 deb http://deb.debian.org/debian/ stable-updates main contrib non-free
 deb-src http://deb.debian.org/debian/ stable-updates main contrib non-free
 
-deb http://deb.debian.org/debian-security stable/updates main
-deb-src http://deb.debian.org/debian-security stable/updates main
+#debian 11 fix
+#deb http://deb.debian.org/debian-security stable/updates main
+#deb-src http://deb.debian.org/debian-security stable/updates main
 
 deb http://ftp.debian.org/debian buster-backports main
 deb-src http://ftp.debian.org/debian buster-backports main
@@ -35,7 +36,11 @@ EOF
 
 
 2) 
-apt update && apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync rsnapshot systemd-coredump
+apt update && apt install net-tools netdiag sudo mc build-essential \ 
+ software-properties-common git monit linux-headers-$(uname -r) iptables-persistent \ 
+ lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop \ 
+ atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils \ 
+ libasound2 rsync systemd-coredump bashtop
 
 3)
 
@@ -110,3 +115,14 @@ https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
 systemctl stop unattended-upgrades.service;
 systemctl disable unattended-upgrades.service;
 
+13)
+
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 pti=off spectre_v2=off noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off intremap=no_x2apic_optout quiet"/g'  /etc/default/grub
+
+14)
+
+sed -i 's/\/usr\/sbin\/netfilter-persistent start/\/etc\/init.d\/iptables start/g'  /lib/systemd/system/netfilter-persistent.service;
+sed -i 's/\/usr\/sbin\/netfilter-persistent stop/\/etc\/init.d\/iptables stop/g'  /lib/systemd/system/netfilter-persistent.service;
+systemctl daemon-reload;
+systemctl stop iptables;
+systemctl start iptables;

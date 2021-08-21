@@ -1,0 +1,3 @@
+Blocked an interrupt request due to source-id verification failure - HP Server
+
+solve - disable INTEL VT-D in bios

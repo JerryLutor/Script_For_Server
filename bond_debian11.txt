@@ -1,0 +1,24 @@
+#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=990428
+
+#work
+
+auto eno1
+iface eno1 inet manual
+    bond-master bond0
+
+auto eno2
+iface eno2 inet manual
+    bond-master bond0
+
+auto bond0
+iface bond0 inet static
+address 0.0.0.0
+netmask 0.0.0.0
+bond-slaves eno2 eno1
+bond-mode 4
+bond-miimon 200
+bond-max_bonds 2
+bond-downdelay 200
+bond-updelay 200
+bond-xmit_hash_policy layer3+4
+bond-lacp_rate 1
