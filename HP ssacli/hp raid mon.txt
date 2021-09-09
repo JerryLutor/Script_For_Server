@@ -40,3 +40,7 @@ zabbix ALL=(ALL) NOPASSWD: /opt/raidstat/raidstat
 
 macro - zabbix
 {$RAID_VENDOR}  hp
+
+#led
+#ssacli ctrl slot=0 pd 1I:1:2 modify led=on
+#ssacli ctrl slot=0 pd 1I:1:2 modify led=off

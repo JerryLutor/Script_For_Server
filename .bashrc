@@ -28,3 +28,6 @@ alias valid='/opt/flussonic/contrib/validate_config.erl'
 #dmesg
 alias dmesg='dmesg -T'
 #
+#kill
+alias kill='kill -9 '
+#
