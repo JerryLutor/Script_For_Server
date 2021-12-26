@@ -1,0 +1,78 @@
+DIST=$(lsb_release -c | grep "Codename:" | awk '{print $2}')  # jessie wheezy or stratch  whatelse
+wget -O - https://hwraid.le-vert.net/debian/hwraid.le-vert.net.gpg.key | sudo apt-key add -
+echo " deb http://hwraid.le-vert.net/debian $DIST main " > /etc/apt/sources.list.d/raidtoolRepo.list
+apt-get update
+apt-get install  megacli megaclisas-status
+
+######################################################################################################
+Check Adapter, Device Status and Configuration
+
+There are several commands you can use to check the status of your adapters and RAID devices.
+
+To see details of all adapters use:
+
+megacli -AdpAllInfo -aAll
+
+To see status and configuration of all logical drives:
+
+megacli -LDInfo -LAll -aAll
+
+To show information of all physical disks use:
+
+megacli -PDList –aAll
+
+For enclosure information type:
+
+megacli -EncInfo -aALL
+#######################################################################################################
+
+Configure RAID 5
+
+To configure a RAID 5 device made up of disks from slots 0 to 5 use the command:
+
+megacli -CfgLdAdd -r5 [252:0,252:1,252:2,252:3,252:4,252:5] -a0
+
+megacli -LDInfo -LAll -a0
+
+########################################################################################################
+
+Configure RAID 1
+
+To configure a RAID 1 setup of two disks from slot 0 to 1, type:
+
+megacli -CfgLdAdd -r1 [252:0,252:1] -a0
+
+megacli -LDInfo -LAll -a0
+
+########################################################################################################
+
+Configure RAID 0
+
+To configure disks as RAID 0 which will strip data across two or more disks, use the commands:
+
+megacli -CfgEachDskRaid0 -a0
+
+megacli -LDInfo -LAll -a0
+
+########################################################################################################
+
+How to enable LED blinking for a drive in LSI RAID
+
+If you need to replace a failed HDD, it might be useful to enable LED blinking. Here’s how you can do this if you have LSI RAID.
+
+At fist let’s find HDD information.
+
+megaclisas-status 
+
+What you need to find is Enclosure Device ID and Slot number.  Once done, run:
+
+megacli -PdLocate -start -PhysDrv [#Enclosure:#Slot number] -a#ARRAY
+
+As you can see you need to specify your real Enclosure Device ID and Slot number. For instance,
+[root@backup ~]#megacli -PdLocate -start -PhysDrv [32:4] -a0
+Adapter: 0: Device at EnclId-32 SlotId-4  -- PD Locate Start Command was successfully send to Firmware
+Exit Code: 0x00
+[root@backup ~]#
+
+Now support team is able to easily replace failed HDD.
+

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#sudo apt-get install v4l-utils
+#sudo apt-get install ffmpeg
 i=1
 tdir=$(/bin/date +%s)
 mkdir /var/www/mosaic/$tdir

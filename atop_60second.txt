@@ -1,0 +1,3 @@
+
+sed -i 's/600/60/' /usr/share/atop/atop.daily
+systemctl daemon-reload && systemctl restart atop && service atop status

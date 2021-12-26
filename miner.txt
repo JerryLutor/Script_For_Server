@@ -1,0 +1,9 @@
+watch -n1 "ps -efH | grep -e curl -e wget -e php"
+
+sed '7d' /var/spool/cron/crontabs/www-data > /var/spool/cron/crontabs/www-data1 && mv /var/spool/cron/crontabs/www-data1 /var/spool/cron/crontabs/www-data 
+
+ps ax | grep -e kde -e ki
+
+cd /tmp/ && rm kdevtmpfsi libsystem.so kinsing
+
+rm /usr/bin/curl /usr/bin/wget && touch /usr/bin/curl && touch /usr/bin/wget

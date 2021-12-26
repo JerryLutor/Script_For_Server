@@ -1,9 +1,18 @@
 fdisk -l
 
+Сначала создаем таблицу gpt на диске (все данные будут уничтожены):
+
 parted --align optimal /dev/nvme0n1
 
 mklabel GPT
-
+unit s
 mkpart primary 0% 100%
  
 mkfs.ext4 /dev/nvme0n1p1
+
+
+Проверяем, что parted правда удовлетворен выравниванием вновь созданного раздела:
+
+    parted /dev/nvme0n1p1 align-check optimal 1
+
+Ответ должен быть "aligned".
