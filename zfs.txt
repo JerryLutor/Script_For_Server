@@ -1,0 +1,4 @@
+  apt update
+  apt install linux-headers-amd64
+  apt install -t bullseye-backports zfsutils-linux zfs-dkms
+  
