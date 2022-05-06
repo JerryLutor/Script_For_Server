@@ -135,7 +135,6 @@ iptables -nL -v;
 
 
 
-
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_kernel -O /etc/apt/preferences.d/lock_kernel
 
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_php_nginx -O /etc/apt/preferences.d/lock_php_nginx

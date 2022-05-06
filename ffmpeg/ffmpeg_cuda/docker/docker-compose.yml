@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  ffmpeg_ch1:
+    container_name: ffmpeg_ch1
+    hostname: ffmpeg_ch1
+    image: jrottenberg/ffmpeg:4.4-nvidia
+    environment:
+      - CONTAINERNAME=ch1_3q
+      - URL=http://......
+      - NAMECH=ch1
+    volumes:
+      - ./:/producers
+      - ./:/var/www
+    entrypoint: ["bash", "-c","/producers/producer.sh"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
