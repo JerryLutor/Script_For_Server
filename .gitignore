@@ -4,3 +4,5 @@ Mellanox/fw/fw-ConnectX3Pro-rel-2_42_5000-MCX346A-BCQ_Ax-UEFI-14.11.45-FlexBoot-
 Mellanox/Mellanox Firmware Tools/mft-4.17.0-106-x86_64-deb.tgz
 Mellanox/Mellanox Firmware Tools/mft-4.17.0-106-x86_64-rpm.tgz
 ffmpeg/ffmpeg_cuda/install.txt.bak
+*.bak
+*.bak
