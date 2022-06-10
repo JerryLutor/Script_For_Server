@@ -49,6 +49,7 @@ IPADDRESS=`hostname --all-ip-addresses`
 #
 echo -e $tcDkG "==============================================================="
 echo -e $tcLtG " $TIME                    $tcORANGE JL"
+echo -e $tcLtG "      DO NOT UPDATE KERNEL, PHP, NGINX, MYSQL!!!!              "
 echo -e $tcDkG "==============================================================="
 
 echo -e $tcLtG " - Hostname      :$tcW `hostname -f`"

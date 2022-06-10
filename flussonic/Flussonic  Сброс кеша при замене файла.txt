@@ -1,0 +1,7 @@
+ Flussonic [#153781] Сброс кеша при замене файла
+
+просьба проверить работоспособность удаления сессии для VOD выполнением запроса:
+
+curl --location --request DELETE 'http://flussonic/streamer/api/v3/sessions/SESSION_ID' \
+--header 'Authorization: Basic xxxxxxxxxxxxxxxxxxxxxx' \
+--data-raw '' 

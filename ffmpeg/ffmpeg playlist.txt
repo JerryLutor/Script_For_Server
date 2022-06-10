@@ -1,0 +1,46 @@
+
+
+ffmpeg playlist
+
+
+
+#!/bin/bash
+
+# create playlist from all .mp4 and play in loop
+
+playlist="playlist.txt"
+
+# create/reset playlist file
+echo "#ffmpeg playlist" > ${playlist}
+
+# this video goes in between two video files
+use_filler="true" # activate filler with "true". Use "false" or any other string to deactivate filler.
+filler="filler.mp4"
+
+# create playlist for ffmpeg from all videos in the current directory
+for f in *.mp4;do
+
+# exclude filler from playlist
+if [ "${f}" != "${filler}" ]; then
+
+    echo "file '${f}'" >> ${playlist}
+
+    # if activated add filler after every video file
+    if [[ "${use_filler}" = "true" ]]; then  # This condition is false for anything but the literal string "true".
+
+        echo "file '${filler}'" >> ${playlist}
+
+    fi
+
+fi
+
+done
+
+# stream playlist immediately with ffmpeg
+ffmpeg -f concat -safe 0 -stream_loop -1 \
+-i "${playlist}" \
+-c copy \
+-f mpegts \
+"udp://239.253.253.1:1234?pkt_size=1384"
+
+

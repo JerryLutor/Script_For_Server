@@ -42,7 +42,7 @@ EOF
 
 
 2) 
-apt update && apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump bashtop
+apt update && apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump
 
 3)
 
@@ -141,3 +141,12 @@ wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/a
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_php_nginx -O /etc/apt/preferences.d/lock_php_nginx
 
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_docker -O /etc/apt/preferences.d/lock_docker
+
+
+-----------------------------------------------------------------------------------------------------
+
+https://downloadmirror.intel.com/732638/Preboot.tar.gz
+
+./bootutil64e -ALL -BOOTENABLE=DISABLED
+./bootutil64e -ALL -WOLD
+./bootutil64e -ALL -FD
