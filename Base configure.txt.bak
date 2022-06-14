@@ -141,3 +141,12 @@ wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/a
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_php_nginx -O /etc/apt/preferences.d/lock_php_nginx
 
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_docker -O /etc/apt/preferences.d/lock_docker
+
+
+-----------------------------------------------------------------------------------------------------
+
+https://downloadmirror.intel.com/732638/Preboot.tar.gz
+
+./bootutil64e -ALL -BOOTENABLE=DISABLED
+./bootutil64e -ALL -WOLD
+./bootutil64e -ALL -FD
