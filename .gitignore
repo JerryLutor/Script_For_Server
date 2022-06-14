@@ -6,3 +6,5 @@ Mellanox/Mellanox Firmware Tools/mft-4.17.0-106-x86_64-rpm.tgz
 ffmpeg/ffmpeg_cuda/install.txt.bak
 *.bak
 *.bak
+*.bak
+*.bak

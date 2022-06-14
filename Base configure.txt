@@ -145,8 +145,16 @@ wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/a
 
 -----------------------------------------------------------------------------------------------------
 
-https://downloadmirror.intel.com/732638/Preboot.tar.gz
+cd /usr/src/
+mkdir intelcfg
+cd /usr/src/intelcfg
+wget https://downloadmirror.intel.com/732638/Preboot.tar.gz /usr/src/intelcfg/Preboot.tar.gz
+tar xf Preboot.tar.gz
+cd /usr/src/intelcfg/APPS/BootUtil/Linux_x64/DRIVER
+./install
+cd /usr/src/intelcfg/APPS/BootUtil/Linux_x64
 
+chmod +x bootutil64e
 ./bootutil64e -ALL -BOOTENABLE=DISABLED
 ./bootutil64e -ALL -WOLD
 ./bootutil64e -ALL -FD
