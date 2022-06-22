@@ -8,3 +8,6 @@ ffmpeg/ffmpeg_cuda/install.txt.bak
 *.bak
 *.bak
 *.bak
+*.bak
+Base configure.txt
+Base configure.txt.bak

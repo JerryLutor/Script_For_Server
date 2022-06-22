@@ -142,6 +142,8 @@ wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/a
 
 wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_docker -O /etc/apt/preferences.d/lock_docker
 
+wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/apt/preferences.d/lock_ffmpeg -O /etc/apt/preferences.d/lock_ffmpeg
+
 
 -----------------------------------------------------------------------------------------------------
 
