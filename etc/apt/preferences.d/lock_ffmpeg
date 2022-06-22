@@ -1,0 +1,39 @@
+Package: ffmpeg*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavcodec*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavdevice*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavfilter*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavformat*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavresample*
+Pin: release *
+Pin-Priority: -1
+
+Package: libavutil*
+Pin: release *
+Pin-Priority: -1
+
+Package: libpostproc*
+Pin: release *
+Pin-Priority: -1
+
+Package: libswresample*
+Pin: release *
+Pin-Priority: -1
+
+Package: libswscale*
+Pin: release *
+Pin-Priority: -1
