@@ -160,3 +160,6 @@ chmod +x bootutil64e
 ./bootutil64e -ALL -BOOTENABLE=DISABLED
 ./bootutil64e -ALL -WOLD
 ./bootutil64e -ALL -FD
+
+echo 'export HISTTIMEFORMAT="%F %T "' >> ~/.bashrc;
+echo 'export HISTTIMEFORMAT="%F %T "' >> /root/.bashrc;
