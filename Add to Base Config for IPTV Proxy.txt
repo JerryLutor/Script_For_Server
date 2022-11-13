@@ -6,7 +6,7 @@ apt install  php php-common php-fpm php-mysql php7.4 php7.4-cli php7.4-common  p
 systemctl stop apache2
 
 3)
-apt install nginx
+apt install nginx libnginx-mod-http-fancyindex
 
 4)
 rm /etc/nginx/sites-enabled/default

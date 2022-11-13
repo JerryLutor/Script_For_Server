@@ -1,0 +1,13 @@
+
+./adapter23/ca0 - viasat 2
+./adapter22/ca0 - viasat 3
+./adapter19/ca0 - kontinent
+./adapter18/ca0 - viasat 1
+./adapter15/ca0
+./adapter14/ca0 - star
+./adapter11/ca0 
+./adapter10/ca0
+./adapter7/ca0 -mgu hotbird
+./adapter6/ca0
+./adapter3/ca0 - mgu
+./adapter2/ca0 - inter
