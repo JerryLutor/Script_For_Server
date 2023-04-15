@@ -41,3 +41,7 @@ Pin-Priority: -1
 Package: libapache2-mod-php*
 Pin: release *
 Pin-Priority: -1
+
+Package: telegraf*
+Pin: release *
+Pin-Priority: -1
