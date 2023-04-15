@@ -3,8 +3,8 @@ sudo apt install libmaxminddb0 libmaxminddb-dev mmdb-bin libpcre++-dev zlib1g-de
 
 
 cd /usr/src/;
-wget https://github.com/leev/ngx_http_geoip2_module/archive/3.3.tar.gz;
-tar zxvf 3.3.tar.gz;
+wget https://github.com/leev/ngx_http_geoip2_module/archive/3.4.tar.gz;
+tar zxvf 3.4.tar.gz;
 
 cd /usr/src/;
 
@@ -15,7 +15,7 @@ tar zxvf nginx-${NGINX_VERSION}.tar.gz;
 cd nginx-${NGINX_VERSION};
 
 
-./configure --add-dynamic-module=/usr/src/ngx_http_geoip2_module-3.3/ --with-cc-opt='-g -O2 -ffile-prefix-map=/build/nginx-q9LD4J/nginx-1.18.0=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-z,relro -Wl,-z,now -fPIC' --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-compat --with-debug --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_sub_module
+./configure --add-dynamic-module=/usr/src/ngx_http_geoip2_module-3.4/ --with-cc-opt='-g -O2 -ffile-prefix-map=/build/nginx-q9LD4J/nginx-1.18.0=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-z,relro -Wl,-z,now -fPIC' --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-compat --with-debug --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_sub_module
 
 
 make;

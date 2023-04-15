@@ -50,14 +50,14 @@ dpkg --add-architecture i386 && apt update && apt install libc6:i386 libpcsclite
 
 4) Only transkoder *******
 
-echo 'blacklist nouveau' >>/etc/modprobe.d/BLACKLIST-video.conf;
+echo 'blacklist nouveau' >>/etc/modprobe.d/BLACKLIST-video.conf && /usr/sbin/modprobe -r nouveau
  
 ------------------------------------------- reboot -----------------------------------------
  
 5)
  
-sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config && sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config && mkdir -p /usr/backup/ && sed -i 's/\/var\/cache\/rsnapshot\//\/usr\/backup\/rsnapshot\//g'  /etc/rsnapshot.conf
-  
+sed -i 's/#Port 22/Port 1122/g'  /etc/ssh/sshd_config && sed -i 's/#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/g'  /etc/ssh/sshd_config && mkdir -p /usr/backup/ 
+
   
 7) 
   
@@ -116,10 +116,12 @@ https://sourceforge.net/projects/e1000/files/ixgbe%20stable/
 12) 
 systemctl stop unattended-upgrades.service;
 systemctl disable unattended-upgrades.service;
+systemctl disable apt-daily.service;
+systemctl disable apt-daily.timer;
 
 13)
 
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 pti=off spectre_v2=off noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off intremap=no_x2apic_optout quiet"/g'  /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 pti=off spectre_v2=off noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off intremap=no_x2apic_optout ixgbe.allow_unsupported_sfp=1 quiet"/g'  /etc/default/grub
 
 14)
 

@@ -2,13 +2,14 @@
 утилиты:
 
 https://www.mellanox.com/downloads/MFT/mft-4.18.0-106-x86_64-deb.tgz
+https://www.mellanox.com/downloads/MFT/mft-4.23.0-104-x86_64-deb.tgz
 
 Перевод в режим ethernet:
 
-mlxconfig -d 03:00.0 set BOOT_OPTION_ROM_EN_P1=false;
-mlxconfig -d 03:00.0 set BOOT_OPTION_ROM_EN_P2=false;
-mlxconfig -d 03:00.0 set LEGACY_BOOT_PROTOCOL_P1=0;
-mlxconfig -d 03:00.0 set LEGACY_BOOT_PROTOCOL_P2=0;
-flint -d 03:00.0 --allow_rom_change drom;
-mlxconfig -d 03:00.0 set LINK_TYPE_P1=2;
-mlxconfig -d 03:00.0 set LINK_TYPE_P2=2;
+mlxconfig -d 04:00.0 set BOOT_OPTION_ROM_EN_P1=false;
+mlxconfig -d 04:00.0 set BOOT_OPTION_ROM_EN_P2=false;
+mlxconfig -d 04:00.0 set LEGACY_BOOT_PROTOCOL_P1=0;
+mlxconfig -d 04:00.0 set LEGACY_BOOT_PROTOCOL_P2=0;
+flint -d 04:00.0 --allow_rom_change drom;
+mlxconfig -d 04:00.0 set LINK_TYPE_P1=2;
+mlxconfig -d 04:00.0 set LINK_TYPE_P2=2;
