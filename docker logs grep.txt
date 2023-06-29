@@ -1,0 +1,7 @@
+
+
+this can happen if the container is logging to stderr, piping works only for stdout, so try:
+
+docker logs nginx 2>&1 | grep "127."
+
+"2>&1" will tells the shell to redirect stderr to stdout and give the output to grep using pipe.

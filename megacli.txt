@@ -1,3 +1,5 @@
+http://hwraid.le-vert.net/debian/dists/
+
 DIST=$(lsb_release -c | grep "Codename:" | awk '{print $2}')  # jessie wheezy or stratch  whatelse
 wget -O - https://hwraid.le-vert.net/debian/hwraid.le-vert.net.gpg.key | sudo apt-key add -
 echo " deb http://hwraid.le-vert.net/debian $DIST main " > /etc/apt/sources.list.d/raidtoolRepo.list

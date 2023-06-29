@@ -2,14 +2,34 @@
 утилиты:
 
 https://www.mellanox.com/downloads/MFT/mft-4.18.0-106-x86_64-deb.tgz
-https://www.mellanox.com/downloads/MFT/mft-4.23.0-104-x86_64-deb.tgz
+https://www.mellanox.com/downloads/MFT/mft-4.23.0-181-x86_64-deb.tgz
+https://content.mellanox.com/MFT/mft-4.24.0-72-x86_64-deb.tgz
+
+cd /usr/src/
+wget https://content.mellanox.com/MFT/mft-4.24.0-72-x86_64-deb.tgz
+tar xf mft-4.24.0-72-x86_64-deb.tgz
+cd mft-4.24.0-72-x86_64-deb
+apt install dkms
+./install --oem
 
 Перевод в режим ethernet:
 
-mlxconfig -d 04:00.0 set BOOT_OPTION_ROM_EN_P1=false;
-mlxconfig -d 04:00.0 set BOOT_OPTION_ROM_EN_P2=false;
-mlxconfig -d 04:00.0 set LEGACY_BOOT_PROTOCOL_P1=0;
-mlxconfig -d 04:00.0 set LEGACY_BOOT_PROTOCOL_P2=0;
-flint -d 04:00.0 --allow_rom_change drom;
-mlxconfig -d 04:00.0 set LINK_TYPE_P1=2;
-mlxconfig -d 04:00.0 set LINK_TYPE_P2=2;
+mlxconfig -d 81:00.0 set BOOT_OPTION_ROM_EN_P1=false;
+mlxconfig -d 81:00.0 set BOOT_OPTION_ROM_EN_P2=false;
+mlxconfig -d 81:00.0 set LEGACY_BOOT_PROTOCOL_P1=0;
+mlxconfig -d 81:00.0 set LEGACY_BOOT_PROTOCOL_P2=0;
+flint -d 81:00.0 --allow_rom_change drom;
+mlxconfig -d 81:00.0 set LINK_TYPE_P1=2;
+mlxconfig -d 81:00.0 set LINK_TYPE_P2=2;
+
+--------------------------------------------------------------------------------------------------------------
+update old firmware
+
+https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/Mellanox/fw-ConnectX3-rel-2_42_5000-MCX353A-FCB_A2-A5-FlexBoot-3.4.752.bin
+
+flint -d 81:00.0 -i fw-ConnectX3-rel-2_42_5000-MCX353A-FCB_A2-A5-FlexBoot-3.4.752.bin -allow_psid_change burn
+
+#reset pci device
+echo "1" > /sys/bus/pci/devices/0000\:81\:00.0//remove
+sleep 1
+echo "1" > /sys/bus/pci/rescan

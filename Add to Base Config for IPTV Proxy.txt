@@ -1,12 +1,12 @@
 1) 
 apt install  php php-common php-fpm php-mysql php7.3 php7.3-cli php7.3-common  php7.3-fpm php7.3-json php7.3-mysql php7.3-opcache php7.3-readline
-apt install  php php-common php-fpm php-mysql php7.4 php7.4-cli php7.4-common  php7.4-fpm php7.4-json php7.4-mysql php7.4-opcache php7.4-readline
-
+apt install  php php-common php-fpm php-mysql php7.4 php7.4-cli php7.4-common  php7.4-fpm php7.4-json php7.4-mysql php7.4-opcache php7.4-readline libnginx-mod-http-geoip2
+apt install  php php-common php-fpm php-mysql php-cli php-json php-opcache php-readline 
 2) 
 systemctl stop apache2
 
 3)
-apt install nginx libnginx-mod-http-fancyindex
+apt install nginx libnginx-mod-http-fancyindex libnginx-mod-http-geoip2
 
 4)
 rm /etc/nginx/sites-enabled/default
@@ -16,6 +16,8 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb && dpkg -i mysq
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.19-1_all.deb && dpkg -i mysql-apt-config_0.8.19-1_all.deb && apt update
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb && dpkg -i mysql-apt-config_0.8.20-1_all.deb && apt update
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb && dpkg -i mysql-apt-config_0.8.22-1_all.deb && apt update
+
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb && dpkg -i mysql-apt-config_0.8.24-1_all.deb && apt update
 6)
 apt install mysql-server -y
 7)

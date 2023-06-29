@@ -1,0 +1,1 @@
+srec_cat in.bin -Binary -o output.hex -intel
