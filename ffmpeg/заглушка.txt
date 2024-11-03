@@ -1,0 +1,8 @@
+ffmpeg -hide_bonner -nostats -loglevel 0 -re \
+	-f lavfi -i *smptebars-rate-30:size-1920xl080" \
+	-f lavfi -i *sine-frequency-1000" \
+	-vf drawtext-’text-'Live Xfgmtime}*:rate-30:x-<*-tw)/2:y-<h-lh)/2:fontsize-68:fontcolorH^ite:box-l:boxcolorM>lack:fontfile-/var/nlinble/fonts/PressStart2P-Regular.ttf" \
+	-f flv \
+	-vcodec libxZ64 -profile:v baseline -pix_fmt yuv420p -preset ultrafast -x264opts keyint-300:min-keyint-300:scenecut—1 -tune zerolatency -f orce_key_frames *expr:gte(t,n_forced*3)* -erf 28 \
+	-acodec aac \
+	rtmp://127.0.0.1/live/rtmp 2>&1 </dev/null &

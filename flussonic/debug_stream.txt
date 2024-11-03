@@ -1,0 +1,15 @@
+stream stream {
+
+  provider youtv;
+  segment_count 20;
+  segment_duration 5;
+  cache /mnt/ssd 1d 1500G;
+  meta comment "DVR";
+  dvr @raid5 9d;
+  debug_stream {
+    root /mnt/rec;
+    expiration 86400;
+    storage_limit 21474836480;
+  }
+  transcoder deviceid=1 fps=25 gop=25 hw=nvenc vb=5140k bframes=0 vcodec=h264 interlace=false level=4.2 open_gop=false preset=medium profile=main sar=1:1 size=1920x1080:scale:blur vb=2960k vcodec=h264 open_gop=false preset=veryfast profile=main sar=1:1 size=-1x576:scale:blur vb=700k vcodec=h264 interlace=false open_gop=false profile=main refs=1 sar=1:1 size=-1x360:scale:blur ab=128k split_channels=false;
+}

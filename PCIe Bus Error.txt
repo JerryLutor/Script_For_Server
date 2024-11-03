@@ -1,0 +1,16 @@
+pcieport 0000:00:1c.3: PCIe Bus Error: severity=Corrected, type=Physical Laye
+
+Ошибка связана с попытками понизить питание на порту PCIe. На тематических Linux-форумах предлагается добавить следующие два параметра при загрузке ядра:
+pci = nomsi — отключает использование прерываний MSI;
+pci = noaer — отключает расширенный отчёт об ошибках ядра.
+
+Но это просто отключение мессаджей. 
+
+нужно отключить технологию ASPM (Active-State Power Management).
+
+ открываем файл настроек grub в текстовом редакторе
+sudo editor /etc/default/grub
+# добавляем параметр pcie_aspm=off
+GRUB_CMDLINE_LINUX_DEFAULT="quiet pcie_aspm=off"
+# сохраняем и обновляем загрузчик
+sudo update-grub

@@ -1,6 +1,6 @@
 1) 
 apt install  php php-common php-fpm php-mysql php7.3 php7.3-cli php7.3-common  php7.3-fpm php7.3-json php7.3-mysql php7.3-opcache php7.3-readline
-apt install  php php-common php-fpm php-mysql php7.4 php7.4-cli php7.4-common  php7.4-fpm php7.4-json php7.4-mysql php7.4-opcache php7.4-readline libnginx-mod-http-geoip2
+apt install  php php-common php-fpm php-mysql  php-cli php-common  php-fpm php-json php-mysql php-opcache php-readline libnginx-mod-http-geoip2
 apt install  php php-common php-fpm php-mysql php-cli php-json php-opcache php-readline 
 2) 
 systemctl stop apache2
@@ -18,18 +18,19 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb && dpkg -i mysq
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb && dpkg -i mysql-apt-config_0.8.22-1_all.deb && apt update
 
 wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb && dpkg -i mysql-apt-config_0.8.24-1_all.deb && apt update
+
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb && dpkg -i mysql-apt-config_0.8.29-1_all.deb && apt update
+
+
 6)
-apt install mysql-server -y
+apt install mysql-community-server -y
 7)
 apt install bird -y
 8)
-systemctl disable bird
-9)
-systemctl disable bird6
+systemctl disable bird && systemctl disable bird6
 10) 
-apt install zabbix-agent -y
-11)
-systemctl enable zabbix-agent
+apt install zabbix-agent -y &&  systemctl enable zabbix-agent
+
 
 12)
 mkdir /ram

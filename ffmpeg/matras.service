@@ -1,0 +1,10 @@
+/etc/systemd/system/matras.service
+
+[Unit]
+Description=Matras FFmpeg Script
+
+[Service]
+ExecStart=/usr/bin/ffmpeg -re -y -stream_loop -1 -i /opt/matras/pqr.ts -vcodec libx264 -preset ultrafast -r 30 -vf realtime,drawtext="fontsize=120:fontfile=FreeSerif.ttf:rate=25:text=%{localtime\}:x=(w-text_w)/2:y=(h-text_h)/2:box=1: boxcolor=white@0.75" -c:a copy -f mpegts "udp://@230.30.31.1:5555/?pkt_size=1316\&ttl=1\&localaddr=127.0.0.1"
+
+[Install]
+WantedBy=multi-user.target

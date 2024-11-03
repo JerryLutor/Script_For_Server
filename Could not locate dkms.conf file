@@ -1,0 +1,8 @@
+Error! Could not locate dkms.conf file.
+File:  does not exist.
+
+I copied the contents of /var/lib/dkms to another directory as a backup, then removed the vboxhost directory in /var/lib/dkms;
+
+mkdir ~/backup_dkms
+cp -r /var/lib/dkms/* ~/backup_dkms 
+rm -rf /var/lib/dkms/vboxhost

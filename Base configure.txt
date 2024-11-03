@@ -153,7 +153,7 @@ wget https://raw.githubusercontent.com/JerryLutor/Script_For_Server/master/etc/a
 wget https://downloadmirror.intel.com/732638/Preboot.tar.gz /usr/src/intelcfg/Preboot.tar.gz
 cd /usr/src/
 mkdir intelcfg
-wget https://downloadmirror.intel.com/764814/Preboot.tar.gz /usr/src/intelcfg/Preboot.tar.gz
+wget https://downloadmirror.intel.com/764814/Preboot.tar.gz -O /usr/src/intelcfg/Preboot.tar.gz
 cd /usr/src/intelcfg
 tar xf Preboot.tar.gz
 cd /usr/src/intelcfg/APPS/BootUtil/Linux_x64/DRIVER
