@@ -1,6 +1,6 @@
 1) 
 apt install  php php-common php-fpm php-mysql php7.3 php7.3-cli php7.3-common  php7.3-fpm php7.3-json php7.3-mysql php7.3-opcache php7.3-readline
-apt install  php php-common php-fpm php-mysql  php-cli php-common  php-fpm php-json php-mysql php-opcache php-readline libnginx-mod-http-geoip2
+apt install  php php-common php-fpm php-mysql  php-cli php-common  php-fpm php-json php-mysql php8.2-opcache php-readline libnginx-mod-http-geoip2
 apt install  php php-common php-fpm php-mysql php-cli php-json php-opcache php-readline 
 2) 
 systemctl stop apache2
@@ -27,13 +27,13 @@ apt install mysql-community-server -y
 7)
 apt install bird -y
 8)
-systemctl disable bird && systemctl disable bird6
+systemctl disable bird && systemctl disable bird6 && rm /etc/bird/bird6.conf
 10) 
 apt install zabbix-agent -y &&  systemctl enable zabbix-agent
 
 
 12)
-mkdir /ram
+mkdir /ram 
 13)
 cat >> /etc/fstab <<EOF
 
@@ -42,3 +42,4 @@ tmpfs        /ram                        tmpfs   nodev,nosuid,noexec,nodiratime,
 EOF
 
 
+systemctl daemon-reload && mount -a

@@ -1,0 +1,1 @@
+nvidia-settings --display :0 -a GPUFanControlState=1 -a GPUTargetFanSpeed=75

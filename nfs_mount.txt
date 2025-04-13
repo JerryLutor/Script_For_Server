@@ -1,0 +1,1 @@
+mount -t nfs -o nfsvers=4 -O username=u,password=p 1.1.1.1:/volume1/TV /nfs/TV

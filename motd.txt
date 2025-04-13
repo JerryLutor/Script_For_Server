@@ -1,7 +1,7 @@
 
 1) 
 
-touch /etc/update-motd.d/99-mymotd-generator && chmod a+x /etc/update-motd.d/99-mymotd-generator && chmod a-x /etc/update-motd.d/10-uname && chmod a+x /etc/update-motd.d/99-mymotd-generator
+touch /etc/update-motd.d/99-mymotd-generator && chmod a+x /etc/update-motd.d/99-mymotd-generator && chmod a-x /etc/update-motd.d/10-uname && chmod a+x /etc/update-motd.d/99-mymotd-generator && rm -f /etc/motd && ln -sf /var/run/motd /etc/motd
  
 3) 
  
@@ -61,7 +61,3 @@ echo -e $tcDkG "=============================================================="
 echo -e $tcRESET ""
 #
 
-
-5) 
-
-rm -f /etc/motd && ln -sf /var/run/motd /etc/motd
