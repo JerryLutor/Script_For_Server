@@ -1,0 +1,85 @@
+esphome:
+  name: i2saudio
+  friendly_name: i2saudio
+
+substitutions:
+  devicename: i2saudio
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "mRQdUz7J0SSWPmzADUKDNG6hudiW5ll0J7Bhhrr+8p8="
+
+ota:
+  password: "ff77cb7acae10a6bc44b7a54ccc3a061"
+  platform: esphome
+
+wifi:
+  ssid: "Luxor"
+  password: ""
+  use_address: $devicename.local
+  reboot_timeout: 5min
+  fast_connect: true
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "$devicename Fallback Hotspot"
+    password: "CH6IxAu6lJyn"
+
+web_server:
+  port: 80
+
+captive_portal:
+
+i2s_audio:
+  i2s_lrclk_pin: GPIO33
+  i2s_bclk_pin: GPIO19
+
+media_player:
+  - platform: i2s_audio
+    name: ESPHome I2S Media Player
+    dac_type: external
+    i2s_dout_pin: GPIO22
+    mode: mono
+    on_state:
+      - logger.log: "State updated!"
+    on_play:
+      - logger.log: "Playback started!"
+    on_pause:
+      - logger.log: "Playback paused!"
+    on_idle:
+      - logger.log: "Playback finished!"
+
+sensor:
+  - platform: wifi_signal
+    name: "$devicename WiFi Signal"
+    update_interval: 10s    
+    
+  - platform: uptime
+    name: "$devicename Uptime"
+
+switch:
+  - platform: shutdown
+    name: "$devicename Shutdown"
+    
+  - platform: restart
+    name: "$devicename Restart"
+
+text_sensor:
+  - platform: version
+    name: "$devicename ESPHome Version"
+
+binary_sensor:
+  - platform: status
+    name: "$devicename Status"
+
+
+

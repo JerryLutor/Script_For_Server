@@ -1,0 +1,51 @@
+esphome:
+  name: nfc
+  #platform: ESP32
+  #board: esp-wrover-kit
+
+esp32:
+  board: esp-wrover-kit
+
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+     - platform: esphome
+       password: "02fd87a1c5b3da987374d2ff55eb90ba"
+
+wifi:
+  ssid: "Luxor"
+  password: ""
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Nfc Fallback Hotspot"
+    password: "x9UsmtbBVDfW"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+i2c:
+  sda: 21
+  scl: 22
+  scan: True
+  id: bus_a
+  
+pn532_i2c:
+  update_interval: 1s
+  on_tag:
+    then:
+    - text_sensor.template.publish:
+        id: rfid_tag
+        state: !lambda 'return x;'
+
+text_sensor:
+  - platform: template
+    name: "RFID Tag"
+    id: rfid_tag

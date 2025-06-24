@@ -44,7 +44,7 @@ EOF
 
 
 2) 
-apt update && apt install net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump
+apt update && apt install rsyslog net-tools netdiag sudo mc build-essential software-properties-common git monit linux-headers-$(uname -r) iptables-persistent lftp gawk ntpdate ethtool psmisc firmware-linux-free firmware-linux-nonfree htop atop curl wget fail2ban lm-sensors ipmitool ifenslave parted vlan edac-utils libasound2 rsync systemd-coredump
 
 3)
 

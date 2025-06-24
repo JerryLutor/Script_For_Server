@@ -1,0 +1,513 @@
+substitutions:
+  name: must-pv1800-uart
+  device_description: "Monitor MUST PV1800 inverter via UART"
+
+esphome:
+  name: esp32-must
+  friendly_name: ESP32-MUST
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+wifi:
+  ssid: "Luxor"
+  password: ""
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Flashled Fallback Hotspot"
+    password: "1iz4wBbtu4H3"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  platform: esphome
+
+uart:
+  id: mod_bus
+  tx_pin: 4
+  rx_pin: 3
+  baud_rate: 19200
+  stop_bits: 1
+  parity: NONE
+  data_bits: 8
+
+modbus:
+  id: mod_bus_must
+  send_wait_time: 1250ms
+
+modbus_controller:
+  - id: must
+    address: 0x4
+    modbus_id: mod_bus_must
+    setup_priority: -10
+    update_interval: 10s
+
+
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: ESP IP Address
+    ssid:
+      name: ESP Connected SSID
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
+  - platform: uptime
+    name: Uptime Sensor
+# charger sensors
+  - platform: modbus_controller
+    address: 15201
+    name: "Charger workstate"
+    register_type: holding
+  - platform: modbus_controller
+    address: 15202
+    name: "MPPT state"
+    register_type: holding
+  - platform: modbus_controller
+    address: 15203
+    name: "Charging state"
+    register_type: holding
+  - platform: modbus_controller
+    address: 15205
+    name: "PV voltage"
+    register_type: holding
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    icon: mdi:sine-wave
+    filters:
+      multiply: 0.1
+  - platform: modbus_controller
+    address: 15206
+    name: "Battery voltage (charger side)"
+    register_type: holding
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    icon: mdi:sine-wave
+    filters:
+      multiply: 0.1
+  - platform: modbus_controller
+    address: 15207
+    name: "Charger Current"
+    register_type: holding
+    unit_of_measurement: "A"
+    accuracy_decimals: 1
+    icon: mdi:current-dc
+    filters:
+      multiply: 0.1
+  - platform: modbus_controller
+    address: 15208
+    register_type: holding
+    name: "Charger power"
+    unit_of_measurement: "W"
+    accuracy_decimals: 1
+    icon: mdi:flash
+
+  - platform: modbus_controller
+    address: 15217
+    register_type: holding
+    # name: "Accumulated charger power MWh"
+    id: charger_total_mwh
+    internal: true
+    # unit_of_measurement: "MWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+  - platform: modbus_controller
+    address: 15218
+    register_type: holding
+    # name: "Accumulated charger power kWh"
+    id: charger_total_kwh
+    internal: true
+    # unit_of_measurement: "kWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+    filters:
+      multiply: 0.1
+
+  - platform: template
+    name: "Accumulated charger power"
+    unit_of_measurement: kWh
+    lambda: |-
+     return (id(charger_total_mwh).state * 1000.0 + id(charger_total_kwh).state );
+    accuracy_decimals: 1
+
+# inverter sensors
+  - platform: modbus_controller
+    address: 25201
+    register_type: holding
+    name: "Inverter Work state"
+  - platform: modbus_controller
+    address: 25205
+    name: "Battery voltage"
+    register_type: holding
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    icon: mdi:sine-wave
+    filters:
+      multiply: 0.1
+    #on_value_range:
+    #  - below: !lambda 'return id(inv_grid_chg_start).state;'
+    #    then:
+    #      - select.set_index:
+    #          id: charger_source_priority
+    #          index: 1  # SNU
+    #  - above: !lambda 'return id(inv_grid_chg_stop).state;'
+    #    then:
+    #      - select.set_index:
+    #          id: charger_source_priority
+    #          index: 2  # OSO
+  - platform: modbus_controller
+    address: 25206
+    name: "Inverter voltage"
+    register_type: holding
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    icon: mdi:sine-wave
+    filters:
+      multiply: 0.1
+  - platform: modbus_controller
+    address: 25207
+    name: "Grid voltage"
+    register_type: holding
+    unit_of_measurement: "V"
+    accuracy_decimals: 1
+    icon: mdi:sine-wave
+    filters:
+      multiply: 0.1
+  - platform: modbus_controller
+    address: 25213
+    name: "Inverter power"
+    register_type: holding
+    unit_of_measurement: "W"
+    accuracy_decimals: 1
+    icon: mdi:flash
+  - platform: modbus_controller
+    address: 25214
+    name: "Grid power"
+    register_type: holding
+    unit_of_measurement: "W"
+    accuracy_decimals: 1
+    value_type: S_WORD
+    icon: mdi:flash
+  - platform: modbus_controller
+    address: 25215
+    name: "Load power"
+    register_type: holding
+    unit_of_measurement: "W"
+    accuracy_decimals: 1
+    icon: mdi:flash
+  - platform: modbus_controller
+    address: 25216
+    name: "System load"
+    register_type: holding
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    icon: mdi:flash
+  - platform: modbus_controller
+    address: 25233
+    register_type: holding
+    name: "AC radiator temp"
+    accuracy_decimals: 1
+    unit_of_measurement: "°C"
+  - platform: modbus_controller
+    address: 25234
+    register_type: holding
+    name: "Transformer temp"
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+  - platform: modbus_controller
+    address: 25235
+    register_type: holding
+    name: "DC Radiator temp"
+    unit_of_measurement: "°C"
+    accuracy_decimals: 1
+  - platform: modbus_controller
+    address: 25247
+    register_type: holding
+    # name: "Accumulated discharger power MWh"
+    id: discharger_total_mwh
+    internal: true
+    # unit_of_measurement: "MWh"
+    # icon: mdi:flash
+  - platform: modbus_controller
+    address: 25248
+    register_type: holding
+    # name: "Accumulated discharger power kWh"
+    id: discharger_total_kwh
+    internal: true
+    # unit_of_measurement: "kWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+    filters:
+      multiply: 0.1
+  - platform: template
+    name: "Accumulated discharger power"
+    unit_of_measurement: kWh
+    lambda: |-
+     return (id(discharger_total_mwh).state * 1000.0 + id(discharger_total_kwh).state );
+    accuracy_decimals: 1
+
+  - platform: modbus_controller
+    address: 25249
+    register_type: holding
+    # name: "Accumulated buy power MWh"
+    id: buy_mwh
+    internal: true
+    # unit_of_measurement: "MWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+  - platform: modbus_controller
+    address: 25250
+    register_type: holding
+    # name: "Accumulated buy power kWh"
+    id: buy_kwh
+    internal: true
+    # unit_of_measurement: "kWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+    filters:
+      multiply: 0.1
+  - platform: template
+    name: "Accumulated buy power"
+    unit_of_measurement: kWh
+    lambda: |-
+     return (id(buy_mwh).state * 1000.0 + id(buy_kwh).state );
+    accuracy_decimals: 1
+
+  - platform: modbus_controller
+    address: 25251
+    register_type: holding
+    # name: "Accumulated sell power MWh"
+    id: sell_mwh
+    # unit_of_measurement: "MWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+  - platform: modbus_controller
+    address: 25252
+    register_type: holding
+    # name: "Accumulated sell power kWh"
+    id: sell_kwh
+    # unit_of_measurement: "kWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+    filters:
+      multiply: 0.1
+  - platform: template
+    name: "Accumulated sell power"
+    unit_of_measurement: kWh
+    lambda: |-
+     return (id(sell_mwh).state * 1000.0 + id(sell_kwh).state );
+    accuracy_decimals: 1
+
+  - platform: modbus_controller
+    address: 25253
+    register_type: holding
+    # name: "Accumulated load power MWh"
+    id: load_mwh
+    internal: true
+    # unit_of_measurement: "MWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+  - platform: modbus_controller
+    address: 25254
+    register_type: holding
+    # name: "Accumulated load power kWh"
+    id: load_kwh
+    internal: true
+    # unit_of_measurement: "kWh"
+    # accuracy_decimals: 1
+    # icon: mdi:flash
+    filters:
+      multiply: 0.1
+  - platform: template
+    name: "Accumulated load power"
+    unit_of_measurement: kWh
+    lambda: |-
+     return (id(load_mwh).state * 1000.0 + id(load_kwh).state );
+    accuracy_decimals: 1
+  - platform: modbus_controller
+    address: 25273
+    register_type: holding
+    value_type: S_WORD
+    name: "Battery power"
+    unit_of_measurement: "W"
+    accuracy_decimals: 1
+    icon: mdi:flash
+  - platform: modbus_controller
+    address: 25274
+    register_type: holding
+    value_type: S_WORD
+    name: "Battery current"
+    unit_of_measurement: "A"
+    accuracy_decimals: 1
+    icon: mdi:current-dc
+
+select:
+  - platform: modbus_controller
+    id: energy_use_mode
+    name: "Energy use mode (parameter 00)"
+    address: 20109
+    optionsmap:
+      "SBU (Solar/battery/utility)": 1
+      "SUB (Solar/utility/battery)": 2
+      "UTI (Utility only)": 3
+      "SOL (Solar only)": 4
+  - platform: modbus_controller
+    id: charger_source_priority
+    name: "Charger source priority (parameter 10)"
+    address: 20143
+    optionsmap:
+      "CSO (Solar first)": 0        # select index 0
+      "SNU (Solar and utility)": 2  # select index 1
+      "OSO (Solar only)": 3         # select index 2
+
+number:
+  - platform: template
+    name: "INV Enable grid charge"
+    id: inv_grid_chg_start
+    device_class: voltage
+    unit_of_measurement: "V"
+    min_value: 22
+    max_value: 28
+    initial_value: 27
+    step: 0.1
+    optimistic: true
+    restore_value: true
+    mode: box
+  - platform: template
+    name: "INV Disable grid charge"
+    id: inv_grid_chg_stop
+    device_class: voltage
+    unit_of_measurement: "V"
+    min_value: 26
+    max_value: 28
+    initial_value: 27
+    step: 0.1
+    optimistic: true
+    restore_value: true
+    mode: box
+
+  - platform: modbus_controller
+    id: batt_float_voltage
+    name: "Float voltage"
+    unit_of_measurement: "V"
+    address: 10103
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+  - platform: modbus_controller
+    id: batt_absorb_voltage
+    name: "Absorb voltage"
+    unit_of_measurement: "V"
+    address: 10104
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+
+  - platform: modbus_controller
+    id: batt_stop_dischg
+    name: "Battery stop discharging voltage"
+    unit_of_measurement: "V"
+    address: 20118
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+  - platform: modbus_controller
+    id: batt_stop_chg
+    name: "Battery stop charging voltage"
+    unit_of_measurement: "V"
+    address: 20119
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+  - platform: modbus_controller
+    id: batt_low_voltage
+    name: "Battery low voltage"
+    unit_of_measurement: "V"
+    address: 20127
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+  - platform: modbus_controller
+    id: batt_high_voltage
+    name: "Battery high voltage"
+    unit_of_measurement: "V"
+    address: 20128
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+  - platform: modbus_controller
+    id: solar_charger_current
+    name: "Charger current"
+    unit_of_measurement: "A"
+    address: 20132
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+    mode: box
+# add 14022025
+  - platform: modbus_controller
+    id: system_settings
+#    name: "System Settings"
+    address: 20142
+    value_type: U_WORD
+    internal: True
+  - platform: modbus_controller
+    name: "Max Grid Charger current"
+    unit_of_measurement: "A"
+    address: 20125
+    value_type: U_WORD
+    lambda: "return x * 0.1; "
+    write_lambda: |-
+      return x * 10 ;
+  - platform: modbus_controller
+    address: 25259
+    register_type: holding
+    # name: "Accumulated grid charge power MWh"
+    id: grid_charge_mwh
+    internal: true
+  - platform: modbus_controller
+    address: 25245
+    register_type: holding
+    # name: "Accumulated charger power MWh"
+    id: inv_charger_total_mwh
+    internal: true
+  - platform: modbus_controller
+    address: 15212
+    register_type: holding
+    name: "PV Relay"
+    icon: mdi:electric-switch
+  - platform: modbus_controller
+    address: 15211
+    register_type: holding
+    name: "Battery Relay"
+switch:
+  - platform: restart
+    name: "ESPhome PV18 Restart"
